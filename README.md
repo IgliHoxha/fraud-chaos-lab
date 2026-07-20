@@ -110,11 +110,13 @@ Then open <http://localhost:8080/docs> for interactive API docs:
   <img src="docs/img/api-docs.png" alt="Swagger UI listing the ops and chaos endpoints" width="860">
 </p>
 
-A ReDoc rendering is also served at <http://localhost:8080/redoc>:
+Expand any endpoint, hit **Execute**, and see the live response:
 
 <p align="center">
-  <img src="docs/img/api-redoc.png" alt="ReDoc rendering of the Fraud Chaos Lab API" width="860">
+  <img src="docs/img/api-try.png" alt="Swagger UI Try it out: POST /chaos/service-1-flood executed, showing the 200 response body" width="820">
 </p>
+
+A ReDoc rendering is also served at <http://localhost:8080/redoc>.
 
 Or fire a storm from the shell:
 
