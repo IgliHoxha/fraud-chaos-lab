@@ -1,4 +1,4 @@
-# 🐒 Fraud Chaos Lab
+# Fraud Chaos Lab
 
 > **"We break our own systems so hackers can't."**
 
@@ -145,7 +145,7 @@ Per-scenario upstreams can be pointed individually with `PROVIDER_1_URL`, `PROVI
 `STORM_TARGET_BASE_URL` + a conventional path. With no target configured, the
 service stays in dry-run no matter what `DRY_RUN` says.
 
-> ⚠️ Only ever point this at infrastructure you own or are explicitly authorised
+> **Warning:** Only ever point this at infrastructure you own or are explicitly authorised
 > to load-test.
 
 ## CLI
