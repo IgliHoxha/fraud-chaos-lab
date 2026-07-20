@@ -24,22 +24,26 @@ authorised to test - by configuring it explicitly.
 ## How it works
 
 ```
-                POST /chaos/*
-                        ┌──────────────────┐
-   client  ──────────▶  │   api (FastAPI)  │
-                        └────────┬─────────┘
-                                 │
-                        ┌────────▼─────────┐
-                        │   scenarios      │  what traffic to make
-                        └────────┬─────────┘
-                                 │
-                        ┌────────▼─────────┐
-                        │   engine         │  bounded async fan-out
-                        └────────┬─────────┘
-  synthetic identities  ┌────────▼─────────┐  dry-run OR real POSTs
-  (Faker)  ─────────────│  provider client │────────▶  upstreams
-                        └──────────────────┘
-                        (provider-1 · service-1 · service-2 …)
+                        POST /chaos/*
+                     ┌────────────────────┐
+   client  ────────▶ │   api (FastAPI)    │
+                     └──────────┬─────────┘
+                                │
+                                ▼
+                     ┌────────────────────┐
+                     │     scenarios      │  what traffic to make
+                     └──────────┬─────────┘
+                                │
+                                ▼
+                     ┌────────────────────┐
+                     │       engine       │  bounded async fan-out
+                     └──────────┬─────────┘
+                                │
+                                ▼
+   synthetic         ┌────────────────────┐
+   identities  ────▶ │  provider client   │  ──▶  upstreams
+   (Faker)           └────────────────────┘   dry-run OR real POSTs
+                     (provider-1 · service-1 · service-2 …)
 ```
 
 Scenarios decide *what* synthetic traffic to generate; the **engine** owns *how*
