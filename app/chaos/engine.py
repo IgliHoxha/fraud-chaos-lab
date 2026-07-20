@@ -48,7 +48,7 @@ async def run_storm(
                 await make_task(index)
                 outcome = "success"
                 succeeded += 1
-            except Exception:  # noqa: BLE001 — a failed unit is an expected outcome here
+            except Exception:  # noqa: BLE001 - a failed unit is an expected outcome here
                 outcome = "failure"
                 failed += 1
             elapsed = time.perf_counter() - started

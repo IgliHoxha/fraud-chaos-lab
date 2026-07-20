@@ -8,14 +8,14 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 **Fraud Chaos Lab** is a resilience engine that simulates high-velocity,
-catastrophic fraud scenarios — Synthetic Identity Floods, service-1 fraud storms,
-service-2 IoT storms — against **your own** infrastructure, to prove it stays
+catastrophic fraud scenarios - Synthetic Identity Floods, service-1 fraud storms,
+service-2 IoT storms - against **your own** infrastructure, to prove it stays
 *antifragile* under the worst case.
 
 It is a chaos-engineering tool, not an attack tool. By default it runs in
 **dry-run**: it exercises the full concurrency machinery in-process and sends
-**zero** real requests. You opt into hitting a real target — one you are
-authorised to test — by configuring it explicitly.
+**zero** real requests. You opt into hitting a real target - one you are
+authorised to test - by configuring it explicitly.
 
 ## How it works
 
@@ -67,20 +67,20 @@ choke point where dry-run is enforced.
 
 Three high-velocity attack vectors, each exposed as an endpoint.
 
-### 1. Subscription Churn Storm — `POST /chaos/subscription-churn`
+### 1. Subscription Churn Storm - `POST /chaos/subscription-churn`
 
 A botnet creates thousands of fake accounts and immediately cancels them to
 degrade reputation and fill databases with junk. Each unit generates a synthetic
 identity, subscribes it to **provider-1**, **provider-2** and **provider-3** concurrently,
-then immediately unsubscribes — probing consistency limits.
+then immediately unsubscribes - probing consistency limits.
 
-### 2. Service-1 Fraud Flood — `POST /chaos/service-1-flood`
+### 2. Service-1 Fraud Flood - `POST /chaos/service-1-flood`
 
 A data leak triggers thousands of simultaneous fraud detections. Floods
 upstream service-1 with critical `FRAUD_DETECTED` events to stress its ingestion
 queue and alerting latency.
 
-### 3. Service-2 IoT Storm — `POST /chaos/service-2-storm`
+### 3. Service-2 IoT Storm - `POST /chaos/service-2-storm`
 
 A city-wide hack sets off every smoke alarm at once. Simulates thousands of IoT
 devices reporting fake fire/smoke telemetry to stress upstream service-2 and
@@ -95,7 +95,7 @@ make install
 # 2. Run the tests
 make test
 
-# 3. Start the API (dry-run — nothing leaves the process)
+# 3. Start the API (dry-run - nothing leaves the process)
 make run
 ```
 
@@ -131,7 +131,7 @@ Every request body field is optional and falls back to configuration:
 
 ## Arming it against a real target
 
-Real traffic is deliberately hard to trigger by accident — it needs **both** a
+Real traffic is deliberately hard to trigger by accident - it needs **both** a
 target and the flag flipped:
 
 ```shell
@@ -170,7 +170,7 @@ docker compose up --build
 ```
 
 `docker compose up` starts the engine **and** a mock upstream (`go-httpbin`),
-wired together with `DRY_RUN=false` — a safe, self-contained end-to-end storm
+wired together with `DRY_RUN=false` - a safe, self-contained end-to-end storm
 target on your machine.
 
 ## Endpoints
@@ -189,14 +189,14 @@ target on your machine.
 
 Prometheus metrics are exposed at `/metrics`:
 
-- `chaos_requests_total{scenario,outcome}` — synthetic requests fired.
-- `chaos_storm_duration_seconds{scenario}` — wall-clock storm duration.
-- `chaos_request_latency_seconds{scenario}` — per-request latency.
+- `chaos_requests_total{scenario,outcome}` - synthetic requests fired.
+- `chaos_storm_duration_seconds{scenario}` - wall-clock storm duration.
+- `chaos_request_latency_seconds{scenario}` - per-request latency.
 
 ## CI
 
 `.github/workflows/ci.yml` runs on every push and pull request: the pytest suite
-across Python 3.10–3.12, `ruff` lint + format checks, and a Docker image build.
+across Python 3.10-3.12, `ruff` lint + format checks, and a Docker image build.
 
 ## Development
 

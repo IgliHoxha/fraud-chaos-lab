@@ -2,7 +2,7 @@
 
 Every scenario resolves its size/concurrency/dry-run from the request (falling
 back to config), builds a per-unit coroutine, and hands it to the engine. The
-scenarios never decide *where* traffic goes on their own — endpoints come from
+scenarios never decide *where* traffic goes on their own - endpoints come from
 config, and an unconfigured endpoint keeps the unit in dry-run.
 """
 
@@ -23,7 +23,7 @@ def _resolve(request: StormRequest, settings: Settings) -> tuple[int, int, bool]
     count = min(count, settings.max_storm_size)
     concurrency = request.concurrency or settings.concurrency
     dry_run = settings.effectively_dry_run if request.dry_run is None else request.dry_run
-    # A missing target always forces dry-run — you cannot flood nothing.
+    # A missing target always forces dry-run - you cannot flood nothing.
     dry_run = dry_run or not settings.storm_target_base_url
     return count, concurrency, dry_run
 

@@ -1,4 +1,4 @@
-"""The /chaos routes — one per attack vector."""
+"""The /chaos routes - one per attack vector."""
 
 from __future__ import annotations
 

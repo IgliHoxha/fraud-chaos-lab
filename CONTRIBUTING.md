@@ -37,8 +37,8 @@ Run `make help` for the full list.
 
 CI runs on every push and PR; please make sure these pass locally first:
 
-1. **`make lint`** — `ruff check` and `ruff format --check` are clean.
-2. **`make test`** — all tests pass.
+1. **`make lint`** - `ruff check` and `ruff format --check` are clean.
+2. **`make test`** - all tests pass.
 
 ## Guidelines
 
@@ -48,7 +48,7 @@ CI runs on every push and PR; please make sure these pass locally first:
   so an unconfigured target degrades to dry-run automatically.
 - Scenarios describe *what* traffic to generate; the engine
   (`app/chaos/engine.py`) owns *how* it is fanned out and measured. Keep that
-  separation — put shared concurrency logic in the engine.
+  separation - put shared concurrency logic in the engine.
 - Add tests for new behaviour. The engine and synthetic layers are pure and
   easy to test without a network; see `tests/test_engine.py`.
 - Match the surrounding style: small modules, clear docstrings, type hints.

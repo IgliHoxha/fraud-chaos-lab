@@ -1,7 +1,7 @@
 services:
   # The chaos engine. Wired to the bundled mock upstream and armed
   # (DRY_RUN=false) so `docker compose up` gives you a real, end-to-end storm
-  # target out of the box — while never touching anything outside this network.
+  # target out of the box - while never touching anything outside this network.
   chaos:
     build: .
     restart: unless-stopped

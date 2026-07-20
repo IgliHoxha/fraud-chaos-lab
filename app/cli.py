@@ -2,8 +2,8 @@
 
 Mirrors the two ways you run the lab:
 
-* ``serve``  — start the HTTP API (the long-running service).
-* ``storm``  — fire a single scenario once and print the result, then exit.
+* ``serve``  - start the HTTP API (the long-running service).
+* ``storm``  - fire a single scenario once and print the result, then exit.
               Handy as a cron/Kubernetes Job for scheduled game-days.
 """
 
