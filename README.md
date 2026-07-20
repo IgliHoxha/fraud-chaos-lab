@@ -120,8 +120,6 @@ Expand any endpoint, hit **Execute**, and see the live response:
   <img src="docs/img/api-try.png" alt="Swagger UI Try it out: POST /chaos/service-1-flood executed, showing the 200 response body" width="820">
 </p>
 
-A ReDoc rendering is also served at <http://localhost:8080/redoc>.
-
 Or fire a storm from the shell:
 
 ```shell
