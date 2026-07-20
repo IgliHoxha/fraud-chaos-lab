@@ -38,11 +38,11 @@ class Settings(BaseSettings):
 
     # Per-scenario upstream endpoints (optional). When unset they fall back to
     # STORM_TARGET_BASE_URL + a conventional path.
-    dnb_url: str = Field(default="", alias="DNB_URL")
-    valitive_url: str = Field(default="", alias="VALITIVE_URL")
-    creditsafe_url: str = Field(default="", alias="CREDITSAFE_URL")
-    crm_url: str = Field(default="", alias="CRM_URL")
-    alarm_gateway_url: str = Field(default="", alias="ALARM_GATEWAY_URL")
+    provider_1_url: str = Field(default="", alias="PROVIDER_1_URL")
+    provider_2_url: str = Field(default="", alias="PROVIDER_2_URL")
+    provider_3_url: str = Field(default="", alias="PROVIDER_3_URL")
+    service_1_url: str = Field(default="", alias="SERVICE_1_URL")
+    service_2_url: str = Field(default="", alias="SERVICE_2_URL")
 
     # Deterministic synthetic data when set (>= 0); -1 leaves Faker unseeded.
     faker_seed: int = Field(default=-1, alias="FAKER_SEED")

@@ -66,12 +66,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /chaos/crm-flood:
+  /chaos/service-1-flood:
     post:
       tags:
       - chaos
-      summary: CRM fraud flood
-      operationId: crm_flood_chaos_crm_flood_post
+      summary: Service-1 fraud flood
+      operationId: service_1_flood_chaos_service_1_flood_post
       requestBody:
         content:
           application/json:
@@ -93,12 +93,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /chaos/alarm-storm:
+  /chaos/service-2-storm:
     post:
       tags:
       - chaos
-      summary: IoT alarm storm
-      operationId: alarm_storm_chaos_alarm_storm_post
+      summary: Service-2 IoT storm
+      operationId: service_2_storm_chaos_service_2_storm_post
       requestBody:
         content:
           application/json:

@@ -29,7 +29,7 @@ test: ## Run the test suite
 run: ## Start the API server (dry-run unless configured)
 	$(PY) -m app serve
 
-storm: ## Fire one scenario once, e.g. make storm SCENARIO=crm-flood
+storm: ## Fire one scenario once, e.g. make storm SCENARIO=service-1-flood
 	$(PY) -m app storm $(SCENARIO)
 
 openapi: ## Regenerate docs/openapi.yaml from the app

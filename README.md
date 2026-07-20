@@ -8,8 +8,8 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 **Fraud Chaos Lab** is a resilience engine that simulates high-velocity,
-catastrophic fraud scenarios — Synthetic Identity Floods, CRM fraud storms, IoT
-alarm storms — against **your own** infrastructure, to prove it stays
+catastrophic fraud scenarios — Synthetic Identity Floods, service-1 fraud storms,
+service-2 IoT storms — against **your own** infrastructure, to prove it stays
 *antifragile* under the worst case.
 
 It is a chaos-engineering tool, not an attack tool. By default it runs in
@@ -34,7 +34,7 @@ authorised to test — by configuring it explicitly.
                                               └────────┬─────────┘
                         synthetic identities  ┌────────▼─────────┐  dry-run OR real POSTs
                         (Faker)  ─────────────│  provider client │──────────────▶ upstreams
-                                              └──────────────────┘   (DNB · CRM · alarm GW …)
+                                              └──────────────────┘   (provider-1 · service-1 · service-2 …)
 ```
 
 Scenarios decide *what* synthetic traffic to generate; the **engine** owns *how*
@@ -71,19 +71,19 @@ Three high-velocity attack vectors, each exposed as an endpoint.
 
 A botnet creates thousands of fake accounts and immediately cancels them to
 degrade reputation and fill databases with junk. Each unit generates a synthetic
-identity, subscribes it to **DNB**, **Valitive** and **Creditsafe** concurrently,
+identity, subscribes it to **provider-1**, **provider-2** and **provider-3** concurrently,
 then immediately unsubscribes — probing consistency limits.
 
-### 2. CRM Fraud Flood — `POST /chaos/crm-flood`
+### 2. Service-1 Fraud Flood — `POST /chaos/service-1-flood`
 
-A data leak triggers thousands of simultaneous fraud detections. Floods the
-internal CRM with critical `FRAUD_DETECTED` events to stress its ingestion queue
-and alerting latency.
+A data leak triggers thousands of simultaneous fraud detections. Floods
+upstream service-1 with critical `FRAUD_DETECTED` events to stress its ingestion
+queue and alerting latency.
 
-### 3. IoT Alarm Storm — `POST /chaos/alarm-storm`
+### 3. Service-2 IoT Storm — `POST /chaos/service-2-storm`
 
 A city-wide hack sets off every smoke alarm at once. Simulates thousands of IoT
-devices reporting fake fire/smoke telemetry to stress the alarm gateway and
+devices reporting fake fire/smoke telemetry to stress upstream service-2 and
 dispatch logic.
 
 ## Getting started
@@ -102,13 +102,13 @@ make run
 Then open <http://localhost:8080/docs> for interactive API docs, or fire a storm:
 
 ```shell
-curl -X POST http://localhost:8080/chaos/crm-flood \
+curl -X POST http://localhost:8080/chaos/service-1-flood \
   -H 'content-type: application/json' -d '{"count": 5000, "concurrency": 200}'
 ```
 
 ```json
 {
-  "scenario": "crm-flood",
+  "scenario": "service-1-flood",
   "dry_run": true,
   "requested": 5000,
   "succeeded": 5000,
@@ -140,8 +140,8 @@ export DRY_RUN=false
 make run
 ```
 
-Per-scenario upstreams can be pointed individually with `DNB_URL`, `VALITIVE_URL`,
-`CREDITSAFE_URL`, `CRM_URL`, `ALARM_GATEWAY_URL`; anything unset falls back to
+Per-scenario upstreams can be pointed individually with `PROVIDER_1_URL`, `PROVIDER_2_URL`,
+`PROVIDER_3_URL`, `SERVICE_1_URL`, `SERVICE_2_URL`; anything unset falls back to
 `STORM_TARGET_BASE_URL` + a conventional path. With no target configured, the
 service stays in dry-run no matter what `DRY_RUN` says.
 
@@ -155,8 +155,8 @@ Kubernetes Job for scheduled game-days):
 
 ```shell
 python -m app serve                        # start the HTTP API
-python -m app storm crm-flood --count 1000 # fire one scenario and print the result
-python -m app storm alarm-storm --no-dry-run
+python -m app storm service-1-flood --count 1000 # fire one scenario and print the result
+python -m app storm service-2-storm --no-dry-run
 ```
 
 ## Docker
@@ -178,8 +178,8 @@ target on your machine.
 | Method | Path                         | Description                       |
 | ------ | ---------------------------- | --------------------------------- |
 | `POST` | `/chaos/subscription-churn`  | Subscription churn storm          |
-| `POST` | `/chaos/crm-flood`           | CRM fraud flood                   |
-| `POST` | `/chaos/alarm-storm`         | IoT alarm storm                   |
+| `POST` | `/chaos/service-1-flood`     | Service-1 fraud flood             |
+| `POST` | `/chaos/service-2-storm`     | Service-2 IoT storm               |
 | `GET`  | `/healthz`                   | Liveness probe                    |
 | `GET`  | `/readyz`                    | Readiness + effective dry-run     |
 | `GET`  | `/metrics`                   | Prometheus metrics                |

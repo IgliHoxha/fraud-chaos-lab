@@ -21,8 +21,8 @@ from app.models import StormRequest
 
 SCENARIOS = {
     "subscription-churn": scenarios.subscription_churn,
-    "crm-flood": scenarios.crm_flood,
-    "alarm-storm": scenarios.alarm_storm,
+    "service-1-flood": scenarios.service_1_flood,
+    "service-2-storm": scenarios.service_2_storm,
 }
 
 

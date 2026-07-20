@@ -18,7 +18,7 @@ services:
       mock:
         condition: service_started
 
-  # A stand-in for the 3rd-party providers / CRM / alarm gateway. Echoes back
+  # A stand-in for the 3rd-party providers / service-1 / service-2. Echoes back
   # any request under /anything/* with 200, so storms have something to hit.
   mock:
     image: mccutchen/go-httpbin:v2.15.0

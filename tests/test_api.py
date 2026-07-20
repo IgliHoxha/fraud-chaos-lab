@@ -36,20 +36,20 @@ def test_subscription_churn_dry_run_small():
     assert body["failed"] == 0
 
 
-def test_crm_flood_dry_run():
-    resp = client.post("/chaos/crm-flood", json={"count": 10})
+def test_service_1_flood_dry_run():
+    resp = client.post("/chaos/service-1-flood", json={"count": 10})
     assert resp.status_code == 200
-    assert resp.json()["scenario"] == "crm-flood"
+    assert resp.json()["scenario"] == "service-1-flood"
 
 
-def test_alarm_storm_dry_run():
-    resp = client.post("/chaos/alarm-storm", json={"count": 10})
+def test_service_2_storm_dry_run():
+    resp = client.post("/chaos/service-2-storm", json={"count": 10})
     assert resp.status_code == 200
-    assert resp.json()["scenario"] == "alarm-storm"
+    assert resp.json()["scenario"] == "service-2-storm"
 
 
 def test_count_is_clamped_to_max():
     # Default max_storm_size is 20000; asking for more must be clamped.
-    resp = client.post("/chaos/crm-flood", json={"count": 999999, "concurrency": 200})
+    resp = client.post("/chaos/service-1-flood", json={"count": 999999, "concurrency": 200})
     assert resp.status_code == 200
     assert resp.json()["requested"] == 20000

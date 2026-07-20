@@ -23,17 +23,17 @@ async def subscription_churn(
     return await scenarios.subscription_churn(request or StormRequest(), settings)
 
 
-@router.post("/crm-flood", response_model=StormResult, summary="CRM fraud flood")
-async def crm_flood(
+@router.post("/service-1-flood", response_model=StormResult, summary="Service-1 fraud flood")
+async def service_1_flood(
     settings: SettingsDep,
     request: StormRequest | None = None,
 ) -> StormResult:
-    return await scenarios.crm_flood(request or StormRequest(), settings)
+    return await scenarios.service_1_flood(request or StormRequest(), settings)
 
 
-@router.post("/alarm-storm", response_model=StormResult, summary="IoT alarm storm")
-async def alarm_storm(
+@router.post("/service-2-storm", response_model=StormResult, summary="Service-2 IoT storm")
+async def service_2_storm(
     settings: SettingsDep,
     request: StormRequest | None = None,
 ) -> StormResult:
-    return await scenarios.alarm_storm(request or StormRequest(), settings)
+    return await scenarios.service_2_storm(request or StormRequest(), settings)

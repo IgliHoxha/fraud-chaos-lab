@@ -49,24 +49,24 @@ async def _run(
 
 async def subscription_churn(request: StormRequest, settings: Settings) -> StormResult:
     """Botnet-style signup/cancel churn across three credit-data providers."""
-    dnb = settings.endpoint(settings.dnb_url, "/dnb/subscriptions")
-    valitive = settings.endpoint(settings.valitive_url, "/valitive/subscriptions")
-    creditsafe = settings.endpoint(settings.creditsafe_url, "/creditsafe/subscriptions")
+    provider_1 = settings.endpoint(settings.provider_1_url, "/provider-1/subscriptions")
+    provider_2 = settings.endpoint(settings.provider_2_url, "/provider-2/subscriptions")
+    provider_3 = settings.endpoint(settings.provider_3_url, "/provider-3/subscriptions")
 
     def build_task(client: ProviderClient, identities: IdentityFactory):
         async def task(_: int) -> None:
             identity = identities.make().as_dict()
             # Subscribe to every provider concurrently...
             await asyncio.gather(
-                client.post_json(dnb, {"action": "subscribe", "identity": identity}),
-                client.post_json(valitive, {"action": "subscribe", "identity": identity}),
-                client.post_json(creditsafe, {"action": "subscribe", "identity": identity}),
+                client.post_json(provider_1, {"action": "subscribe", "identity": identity}),
+                client.post_json(provider_2, {"action": "subscribe", "identity": identity}),
+                client.post_json(provider_3, {"action": "subscribe", "identity": identity}),
             )
             # ...then immediately churn to probe consistency limits.
             await asyncio.gather(
-                client.post_json(dnb, {"action": "unsubscribe", "identity": identity}),
-                client.post_json(valitive, {"action": "unsubscribe", "identity": identity}),
-                client.post_json(creditsafe, {"action": "unsubscribe", "identity": identity}),
+                client.post_json(provider_1, {"action": "unsubscribe", "identity": identity}),
+                client.post_json(provider_2, {"action": "unsubscribe", "identity": identity}),
+                client.post_json(provider_3, {"action": "unsubscribe", "identity": identity}),
             )
 
         return task
@@ -76,15 +76,15 @@ async def subscription_churn(request: StormRequest, settings: Settings) -> Storm
     )
 
 
-async def crm_flood(request: StormRequest, settings: Settings) -> StormResult:
-    """Flood the internal CRM with critical FRAUD_DETECTED events."""
-    crm = settings.endpoint(settings.crm_url, "/crm/events")
+async def service_1_flood(request: StormRequest, settings: Settings) -> StormResult:
+    """Flood upstream service-1 with critical FRAUD_DETECTED events."""
+    service_1 = settings.endpoint(settings.service_1_url, "/service-1/events")
 
     def build_task(client: ProviderClient, identities: IdentityFactory):
         async def task(index: int) -> None:
             identity = identities.make()
             await client.post_json(
-                crm,
+                service_1,
                 {
                     "type": "FRAUD_DETECTED",
                     "severity": "CRITICAL",
@@ -97,18 +97,18 @@ async def crm_flood(request: StormRequest, settings: Settings) -> StormResult:
         return task
 
     return await _run(
-        scenario="crm-flood", request=request, settings=settings, build_task=build_task
+        scenario="service-1-flood", request=request, settings=settings, build_task=build_task
     )
 
 
-async def alarm_storm(request: StormRequest, settings: Settings) -> StormResult:
-    """Simulate a city-wide IoT alarm storm against the alarm gateway."""
-    gateway = settings.endpoint(settings.alarm_gateway_url, "/alarms/ingest")
+async def service_2_storm(request: StormRequest, settings: Settings) -> StormResult:
+    """Simulate a city-wide IoT storm against upstream service-2."""
+    service_2 = settings.endpoint(settings.service_2_url, "/service-2/ingest")
 
     def build_task(client: ProviderClient, identities: IdentityFactory):
         async def task(index: int) -> None:
             await client.post_json(
-                gateway,
+                service_2,
                 {
                     "device_id": f"iot-{index:06d}",
                     "event": "SMOKE_DETECTED",
@@ -120,5 +120,5 @@ async def alarm_storm(request: StormRequest, settings: Settings) -> StormResult:
         return task
 
     return await _run(
-        scenario="alarm-storm", request=request, settings=settings, build_task=build_task
+        scenario="service-2-storm", request=request, settings=settings, build_task=build_task
     )

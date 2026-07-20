@@ -28,7 +28,7 @@ checkout is completely inert.
 | Lint (ruff)               | `make lint`   |
 | Run tests                 | `make test`   |
 | Run the API server        | `make run`    |
-| Fire one scenario once    | `make storm SCENARIO=crm-flood` |
+| Fire one scenario once    | `make storm SCENARIO=service-1-flood` |
 | Build the container image | `make docker` |
 
 Run `make help` for the full list.
