@@ -17,6 +17,10 @@ It is a chaos-engineering tool, not an attack tool. By default it runs in
 **zero** real requests. You opt into hitting a real target - one you are
 authorised to test - by configuring it explicitly.
 
+<p align="center">
+  <img src="docs/img/storm-result.png" alt="A dry-run storm result: 5000 requests fired at 4605 req/s with a p95 latency of 41 ms" width="820">
+</p>
+
 ## How it works
 
 ```
@@ -100,7 +104,19 @@ make test
 make run
 ```
 
-Then open <http://localhost:8080/docs> for interactive API docs, or fire a storm:
+Then open <http://localhost:8080/docs> for interactive API docs:
+
+<p align="center">
+  <img src="docs/img/api-docs.png" alt="Swagger UI listing the ops and chaos endpoints" width="860">
+</p>
+
+A ReDoc rendering is also served at <http://localhost:8080/redoc>:
+
+<p align="center">
+  <img src="docs/img/api-redoc.png" alt="ReDoc rendering of the Fraud Chaos Lab API" width="860">
+</p>
+
+Or fire a storm from the shell:
 
 ```shell
 curl -X POST http://localhost:8080/chaos/service-1-flood \
@@ -193,6 +209,14 @@ Prometheus metrics are exposed at `/metrics`:
 - `chaos_requests_total{scenario,outcome}` - synthetic requests fired.
 - `chaos_storm_duration_seconds{scenario}` - wall-clock storm duration.
 - `chaos_request_latency_seconds{scenario}` - per-request latency.
+
+Scraped into a dashboard, a live armed run (`dry_run=false`, firing at a local
+target) looks like this - throughput, latency percentiles, and per-scenario
+volume, all straight from `/metrics`:
+
+<p align="center">
+  <img src="docs/img/live-metrics.png" alt="Live metrics dashboard from an armed run: 8,400 requests, 6,336 req/s peak, 100% success, with throughput, latency and per-scenario charts" width="900">
+</p>
 
 ## CI
 
