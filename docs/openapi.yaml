@@ -1,0 +1,249 @@
+# Generated from the FastAPI app. Regenerate with: make openapi
+openapi: 3.1.0
+info:
+  title: Fraud Chaos Lab
+  description: 'Fraud Chaos Lab simulates high-velocity, catastrophic fraud scenarios
+    against your own infrastructure to prove it stays antifragile under load. It ships
+    in DRY_RUN mode: no real traffic leaves the process until you configure a target
+    and disable the flag.'
+  version: 0.1.0
+paths:
+  /healthz:
+    get:
+      tags:
+      - ops
+      summary: Liveness probe
+      operationId: healthz_healthz_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+                title: Response Healthz Healthz Get
+  /readyz:
+    get:
+      tags:
+      - ops
+      summary: Readiness probe
+      operationId: readyz_readyz_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Readyz Readyz Get
+  /chaos/subscription-churn:
+    post:
+      tags:
+      - chaos
+      summary: Subscription churn storm
+      operationId: subscription_churn_chaos_subscription_churn_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/StormRequest'
+              - type: 'null'
+              title: Request
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StormResult'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /chaos/crm-flood:
+    post:
+      tags:
+      - chaos
+      summary: CRM fraud flood
+      operationId: crm_flood_chaos_crm_flood_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/StormRequest'
+              - type: 'null'
+              title: Request
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StormResult'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /chaos/alarm-storm:
+    post:
+      tags:
+      - chaos
+      summary: IoT alarm storm
+      operationId: alarm_storm_chaos_alarm_storm_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/StormRequest'
+              - type: 'null'
+              title: Request
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StormResult'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /:
+    get:
+      tags:
+      - ops
+      summary: Service banner
+      operationId: root__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+                title: Response Root  Get
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    StormRequest:
+      properties:
+        count:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Count
+          description: Number of synthetic events to generate. Defaults to DEFAULT_STORM_SIZE.
+        concurrency:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Concurrency
+          description: Max in-flight requests. Defaults to CONCURRENCY.
+        dry_run:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Dry Run
+          description: Override the server DRY_RUN flag for this storm only.
+      type: object
+      title: StormRequest
+      description: 'Parameters controlling a single chaos storm.
+
+
+        All fields are optional; omitted values fall back to server configuration.'
+    StormResult:
+      properties:
+        scenario:
+          type: string
+          title: Scenario
+        dry_run:
+          type: boolean
+          title: Dry Run
+        requested:
+          type: integer
+          title: Requested
+        succeeded:
+          type: integer
+          title: Succeeded
+        failed:
+          type: integer
+          title: Failed
+        duration_seconds:
+          type: number
+          title: Duration Seconds
+        requests_per_second:
+          type: number
+          title: Requests Per Second
+        latency_p50_ms:
+          type: number
+          title: Latency P50 Ms
+        latency_p95_ms:
+          type: number
+          title: Latency P95 Ms
+        latency_max_ms:
+          type: number
+          title: Latency Max Ms
+      type: object
+      required:
+      - scenario
+      - dry_run
+      - requested
+      - succeeded
+      - failed
+      - duration_seconds
+      - requests_per_second
+      - latency_p50_ms
+      - latency_p95_ms
+      - latency_max_ms
+      title: StormResult
+      description: Outcome summary for a completed storm.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
